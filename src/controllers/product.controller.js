@@ -33,10 +33,41 @@ export const productsDelete = async (req, res) => {
       return res.status(400).json({ message: "El producto no existe" });
     }
     const productDelete = await Product.findByIdAndDelete(id);
-    console.log("productDelete", productDelete);
     return res.json(productDelete);
   } catch (err) {
     console.log("err", err);
     return res.status(400).json(err);
+  }
+};
+
+export const productsFind = async (req, res) => {
+  const { nombre } = req.query;
+
+  try {
+    const findProduct = await Product.find({
+      nombre: { $regex: nombre, $options: "i" },
+    }).lean();
+    if (findProduct.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No se encontraron productos con ese nombre." });
+    }
+    res.status(200).json(findProduct);
+  } catch (err) {
+    return res.status(400).json(err);
+  }
+};
+
+export const productsUpdate = async (req, res) => {
+  const data = req.body;
+  const id = req.params.id;
+  try {
+    const productUpdate = await Product.findByIdAndUpdate(id, data, {
+      new: true,
+    });
+
+    return res.json(productUpdate);
+  } catch (err) {
+    return res.status(400).json(err.message);
   }
 };
