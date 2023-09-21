@@ -32,7 +32,26 @@ export const tasksDelete = async (req, res) => {
   }
 };
 
+export const tasksFind = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const taskFind = await Task.findById(id);
+    res.json(taskFind);
+  } catch (error) {
+    console.log("err", err);
+    return res.status(400).json(err);
+  }
+};
+
 export const tasksUpdate = async (req, res) => {
-  const tasks = await Task.find();
-  res.json(tasks);
+  const { id } = req.params;
+  const taskChange = req.body;
+
+  try {
+    const newTask = await Task.findByIdAndUpdate(id, taskChange, { new: true });
+    res.json(newTask);
+  } catch (error) {
+    console.log("err", err);
+    return res.status(400).json(err);
+  }
 };
