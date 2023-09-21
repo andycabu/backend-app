@@ -81,5 +81,4 @@ export const profile = (req, res) => {
     createdAt: userFound.createdAt,
     updatedAt: userFound.updatedAt,
   });
-  res.send("profile");
 };
