@@ -1,6 +1,6 @@
-import { Schema, model, models } from "mongoose";
+import mongoose from "mongoose";
 
-const taskSchema = new Schema(
+const taskSchema = new mongoose.Schema(
   {
     title: {
       type: String,
@@ -19,4 +19,4 @@ const taskSchema = new Schema(
   }
 );
 
-export default models.Task || model("Task", taskSchema);
+export default mongoose.model("Task", taskSchema);
