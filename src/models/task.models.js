@@ -13,6 +13,11 @@ const taskSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    img: {
+      type: String,
+      required: false,
+      trim: true,
+    },
   },
   {
     timestamps: true,

@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 config();
 
 // Obtener la cadena de conexión a la base de datos desde las variables de entorno
-const dbURI = process.env.MONGODB_URI_LOCAL;
+const dbURI = process.env.MONGODB_URI;
 
 // Configurar y conectar a la base de datos MongoDB
 
