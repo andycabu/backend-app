@@ -11,7 +11,7 @@ export const tasksAdd = async (req, res) => {
     const savedTask = await newTask.save();
     console.log(savedTask);
     res.json(savedTask);
-  } catch (error) {
+  } catch (err) {
     console.log("err", err);
     return res.status(400).json(err);
   }
@@ -37,7 +37,7 @@ export const tasksFind = async (req, res) => {
   try {
     const taskFind = await Task.findById(id);
     res.json(taskFind);
-  } catch (error) {
+  } catch (err) {
     console.log("err", err);
     return res.status(400).json(err);
   }
@@ -50,7 +50,7 @@ export const tasksUpdate = async (req, res) => {
   try {
     const newTask = await Task.findByIdAndUpdate(id, taskChange, { new: true });
     res.json(newTask);
-  } catch (error) {
+  } catch (err) {
     console.log("err", err);
     return res.status(400).json(err);
   }
