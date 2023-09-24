@@ -3,9 +3,14 @@ import bcrypt from "bcryptjs";
 import { createAccessToken } from "../libs/jwt.js";
 
 export const register = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password1, password2 } = req.body;
 
   try {
+    if (password1 !== password2) {
+      throw new Error("Las contraseñas no coinciden");
+    }
+    const password = (await password1) === password2 ? password1 : null;
+
     if (!password) {
       throw new Error("Se requiere una contraseña");
     }

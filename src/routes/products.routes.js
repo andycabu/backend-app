@@ -9,10 +9,10 @@ import {
 import { authRequired } from "../middleware/validateToken.js";
 const router = Router();
 
-router.get("/products", authRequired, products);
-router.post("/products/add", authRequired, productsAdd);
-router.delete("/products/delete:id", authRequired, productsDelete);
-router.get("/products/find", authRequired, productsFind);
-router.put("/products/update:id", authRequired, productsUpdate);
+router.get("/products", products);
+router.post("/products/add", productsAdd);
+router.delete("/products/delete:id", productsDelete);
+router.get("/products/find", productsFind);
+router.put("/products/update:id", productsUpdate);
 
 export default router;
