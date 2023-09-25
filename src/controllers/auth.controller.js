@@ -6,6 +6,8 @@ export const register = async (req, res) => {
   const { name, email, password1, password2 } = req.body;
 
   try {
+    const userFound = await User.findOne({ email });
+    if (userFound) throw new Error("El correo ya está registrado");
     if (password1 !== password2) {
       throw new Error("Las contraseñas no coinciden");
     }
