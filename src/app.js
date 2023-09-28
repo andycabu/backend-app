@@ -8,7 +8,7 @@ import productsRoutes from "./routes/products.routes.js";
 import tasksRoutes from "./routes/tasks.routes.js";
 
 const app = express();
-app.use(cors({ origin: "http://localhost:3000" }));
+app.use(cors({ origin: "http://localhost:5173" }));
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use(morgan("dev"));

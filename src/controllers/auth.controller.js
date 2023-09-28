@@ -7,15 +7,16 @@ export const register = async (req, res) => {
 
   try {
     const userFound = await User.findOne({ email });
-    if (userFound) throw new Error("El correo ya está registrado");
+    if (userFound)
+      return res.status(400).json({
+        error: ["El correo electrónico ya está registrado"],
+      });
     if (password1 !== password2) {
-      throw new Error("Las contraseñas no coinciden");
+      return res.status(400).json({
+        error: ["Las contraseñas no coinciden"],
+      });
     }
     const password = (await password1) === password2 ? password1 : null;
-
-    if (!password) {
-      throw new Error("Se requiere una contraseña");
-    }
 
     const passwordHash = await bcrypt.hash(password.toString(), 10);
 
@@ -39,10 +40,7 @@ export const login = async (req, res) => {
     const userFound = await User.findOne({ email }).select("+password");
 
     if (!userFound)
-      return res.status(400).json({ message: "Usuario no encontrado" });
-
-    if (!password)
-      return res.status(400).json({ message: "Se requiere una contraseña" });
+      return res.status(400).json({ error: ["Usuario no encontrado"] });
 
     if (!userFound.password)
       return res
@@ -51,7 +49,7 @@ export const login = async (req, res) => {
 
     const isMatch = await bcrypt.compare(password, userFound.password);
     if (!isMatch)
-      return res.status(400).json({ message: "Contraseña incorrecta" });
+      return res.status(400).json({ error: ["Contraseña incorrecta"] });
 
     const token = await createAccessToken({ id: userFound._id });
 
@@ -79,7 +77,7 @@ export const profile = async (req, res) => {
   const userFound = await User.findById(req.user.id);
   if (!userFound)
     return res.status(400).json({
-      message: "Usuario no encontrado ",
+      error: ["Usuario no encontrado "],
     });
   return res.json({
     id: userFound._id,

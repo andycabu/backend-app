@@ -24,14 +24,6 @@ export const registerSchema = z.object({
       message: "La contraseña debe tener al menos 6 caracteres",
     })
     .max(1024),
-  password2: z
-    .string({
-      required_error: "Se requiere una contraseña",
-    })
-    .min(6, {
-      message: "La contraseña debe tener al menos 6 caracteres",
-    })
-    .max(1024),
 });
 export const loginSchema = z.object({
   email: z
