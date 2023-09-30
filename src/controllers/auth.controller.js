@@ -1,6 +1,9 @@
 import User from "../models/user.models.js";
 import bcrypt from "bcryptjs";
 import { createAccessToken } from "../libs/jwt.js";
+import jwt from "jsonwebtoken";
+import { config } from "dotenv";
+config();
 
 export const register = async (req, res) => {
   const { name, email, password1, password2 } = req.body;
@@ -85,5 +88,24 @@ export const profile = async (req, res) => {
     email: userFound.email,
     createdAt: userFound.createdAt,
     updatedAt: userFound.updatedAt,
+  });
+};
+
+export const verifyToken = async (req, res) => {
+  const { token } = req.cookies;
+
+  if (!token) return res.status(401).json({ error: ["No autorizado"] });
+
+  jwt.verify(token, process.env.TOKEN_SECRET, async (err, user) => {
+    if (err) return res.status(401).json({ error: ["No autorizado"] });
+    const userFound = await User.findById(user.id);
+
+    if (!userFound) return res.status(401).json({ error: ["No autorizado"] });
+
+    return res.json({
+      id: userFound._id,
+      name: userFound.name,
+      email: userFound.email,
+    });
   });
 };
