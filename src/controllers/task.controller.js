@@ -22,7 +22,7 @@ export const tasksDelete = async (req, res) => {
   try {
     const taskFound = await Task.findById(id);
     if (!taskFound) {
-      return res.status(400).json({ message: "La tarea no existe" });
+      return res.status(400).json({ error: ["La tarea no existe"] });
     }
     const taskDelete = await Task.findByIdAndDelete(id);
     return res.json(taskDelete);

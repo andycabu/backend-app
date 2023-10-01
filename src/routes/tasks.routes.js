@@ -13,7 +13,7 @@ const router = Router();
 router.get("/tasks", tasks);
 router.post("/tasks/add", validateSchema(taskSchema), tasksAdd);
 router.delete("/tasks/delete:id", tasksDelete);
-router.get("/tasks/find:id", tasksFind);
+router.get("/tasks/find/:id", tasksFind);
 router.put("/tasks/update:id", tasksUpdate);
 
 export default router;
