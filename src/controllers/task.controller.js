@@ -1,18 +1,19 @@
 import Task from "../models/task.models.js";
 
 export const tasks = async (req, res) => {
-  const tasks = await Task.find();
+  const tasks = await Task.find({
+    user: req.user.id,
+  }).populate("user");
   res.json(tasks);
 };
 export const tasksAdd = async (req, res) => {
-  const newTask = new Task(req.body);
+  const { title, description, img } = req.body;
+  const newTask = new Task({ title, description, user: req.user.id, img });
 
   try {
     const savedTask = await newTask.save();
-    console.log(savedTask);
     res.json(savedTask);
   } catch (err) {
-    console.log("err", err);
     return res.status(400).json(err);
   }
 };
