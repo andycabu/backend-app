@@ -6,20 +6,26 @@ export const products = async (req, res) => {
 };
 
 export const productsAdd = async (req, res) => {
-  const data = req.body;
-  const { nombre, referencia } = data;
+  const { nombre, referencia, fechaCaducidad, categoria, stock } = req.body;
+
   try {
     const productFound = await Product.findOne({ nombre });
     const productFound2 = await Product.findOne({ referencia });
     if (productFound || productFound2) {
-      return res.status(400).json({ message: "El producto ya existe" });
+      return res.status(400).json({ message: ["El producto ya existe"] });
     }
-    const newProduct = new Product(data);
+    const newProduct = new Product({
+      user: req.user.id,
+      nombre,
+      referencia,
+      fechaCaducidad,
+      categoria,
+      stock,
+    });
     const savedProduct = await newProduct.save();
     console.log("savedProduct", savedProduct);
     return res.json(savedProduct);
   } catch (err) {
-    console.log("err", err);
     return res.status(400).json(err);
   }
 };

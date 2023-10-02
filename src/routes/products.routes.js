@@ -7,12 +7,19 @@ import {
   productsUpdate,
 } from "../controllers/product.controller.js";
 import { authRequired } from "../middleware/validateToken.js";
+import { validateSchema } from "../middleware/validator.middleware.js";
+import { productSchema } from "../schemas/product.schema.js";
 const router = Router();
 
-router.get("/products", products);
-router.post("/products/add", productsAdd);
-router.delete("/products/delete:id", productsDelete);
-router.get("/products/find", productsFind);
-router.put("/products/update:id", productsUpdate);
+router.get("/products", authRequired, products);
+router.post(
+  "/products/add",
+  validateSchema(productSchema),
+  authRequired,
+  productsAdd
+);
+router.delete("/products/delete/:id", authRequired, productsDelete);
+router.get("/products/find", authRequired, productsFind);
+router.put("/products/update/:id", authRequired, productsUpdate);
 
 export default router;
