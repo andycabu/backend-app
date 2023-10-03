@@ -1,10 +1,10 @@
 import { Router } from "express";
 import {
   products,
-  productsAdd,
-  productsDelete,
-  productsFind,
-  productsUpdate,
+  productAdd,
+  productDelete,
+  productFind,
+  productUpdate,
 } from "../controllers/product.controller.js";
 import { authRequired } from "../middleware/validateToken.js";
 import { validateSchema } from "../middleware/validator.middleware.js";
@@ -13,13 +13,13 @@ const router = Router();
 
 router.get("/products", authRequired, products);
 router.post(
-  "/products/add",
-  validateSchema(productSchema),
+  "/product/add",
+  // validateSchema(productSchema),
   authRequired,
-  productsAdd
+  productAdd
 );
-router.delete("/products/delete/:id", authRequired, productsDelete);
-router.get("/products/find", authRequired, productsFind);
-router.put("/products/update/:id", authRequired, productsUpdate);
+router.delete("/product/delete/:id", authRequired, productDelete);
+router.get("/product/find", authRequired, productFind);
+router.put("/product/update/:id", authRequired, productUpdate);
 
 export default router;

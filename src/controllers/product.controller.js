@@ -1,11 +1,11 @@
 import Product from "../models/product.models.js";
 
 export const products = async (req, res) => {
-  const products = await Product.find();
+  const products = await Product.find({ user: req.user.id }).populate("user");
   res.json(products);
 };
 
-export const productsAdd = async (req, res) => {
+export const productAdd = async (req, res) => {
   const { nombre, referencia, fechaCaducidad, categoria, stock } = req.body;
 
   try {
@@ -30,7 +30,7 @@ export const productsAdd = async (req, res) => {
   }
 };
 
-export const productsDelete = async (req, res) => {
+export const productDelete = async (req, res) => {
   const { id } = req.params;
   console.log("id", id);
   try {
@@ -46,7 +46,7 @@ export const productsDelete = async (req, res) => {
   }
 };
 
-export const productsFind = async (req, res) => {
+export const productFind = async (req, res) => {
   const { nombre } = req.query;
 
   try {
@@ -64,7 +64,7 @@ export const productsFind = async (req, res) => {
   }
 };
 
-export const productsUpdate = async (req, res) => {
+export const productUpdate = async (req, res) => {
   const data = req.body;
   const id = req.params.id;
   try {

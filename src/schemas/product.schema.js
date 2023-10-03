@@ -15,7 +15,7 @@ export const productSchema = z.object({
   categoria: z.string({
     required_error: "Se requiere una categoria",
   }),
-  stock: z.string({
+  stock: z.number({
     required_error: "Se requiere un stock",
   }),
 });
