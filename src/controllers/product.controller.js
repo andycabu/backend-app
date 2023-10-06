@@ -9,10 +9,20 @@ export const productAdd = async (req, res) => {
   const { nombre, referencia, fechaCaducidad, categoria, stock } = req.body;
 
   try {
-    const productFound = await Product.findOne({ nombre });
-    const productFound2 = await Product.findOne({ referencia });
-    if (productFound || productFound2) {
-      return res.status(400).json({ message: ["El producto ya existe"] });
+    const existingName = await Product.findOne({
+      user: req.user.id,
+      nombre,
+    });
+    const existingRef = await Product.findOne({
+      user: req.user.id,
+      referencia,
+    });
+
+    if (existingName) {
+      return res.status(400).json({ error: ["El producto ya existe "] });
+    }
+    if (existingRef) {
+      return res.status(400).json({ error: ["La referencia ya existe "] });
     }
     const newProduct = new Product({
       user: req.user.id,
@@ -23,16 +33,17 @@ export const productAdd = async (req, res) => {
       stock,
     });
     const savedProduct = await newProduct.save();
-    console.log("savedProduct", savedProduct);
+
     return res.json(savedProduct);
   } catch (err) {
+    console.log("err", err);
     return res.status(400).json(err);
   }
 };
 
 export const productDelete = async (req, res) => {
   const { id } = req.params;
-  console.log("id", id);
+
   try {
     const productFound = await Product.findById(id);
     if (!productFound) {
@@ -56,17 +67,19 @@ export const productFind = async (req, res) => {
     if (findProduct.length === 0) {
       return res
         .status(404)
-        .json({ message: "No se encontraron productos con ese nombre." });
+        .json({ error: "No se encontraron productos con ese nombre." });
     }
+
     res.status(200).json(findProduct);
-  } catch (err) {
-    return res.status(400).json(err);
+  } catch (error) {
+    return res.status(400).json(error);
   }
 };
 
 export const productUpdate = async (req, res) => {
   const data = req.body;
   const id = req.params.id;
+  console.log(data, id);
   try {
     const productUpdate = await Product.findByIdAndUpdate(id, data, {
       new: true,

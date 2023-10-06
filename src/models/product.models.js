@@ -10,18 +10,15 @@ const productSchema = new mongoose.Schema(
     nombre: {
       type: String,
       required: true,
-      unique: true,
       trim: true,
     },
     referencia: {
       type: String,
       required: true,
-      unique: true,
       trim: true,
     },
     fechaCaducidad: {
       type: Date,
-      required: true,
       trim: true,
     },
     categoria: {
@@ -43,5 +40,8 @@ const productSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+productSchema.index({ user: 1, nombre: 1 }, { unique: true });
+productSchema.index({ user: 1, referencia: 1 }, { unique: true });
 
 export default mongoose.model("Product", productSchema);

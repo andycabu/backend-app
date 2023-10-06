@@ -14,7 +14,7 @@ const router = Router();
 router.get("/products", authRequired, products);
 router.post(
   "/product/add",
-  // validateSchema(productSchema),
+  validateSchema(productSchema),
   authRequired,
   productAdd
 );
