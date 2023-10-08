@@ -9,11 +9,12 @@ export const tasks = async (req, res) => {
 export const tasksAdd = async (req, res) => {
   const { title, description, img } = req.body;
   const newTask = new Task({ title, description, user: req.user.id, img });
-
   try {
     const savedTask = await newTask.save();
+
     res.json(savedTask);
   } catch (err) {
+    console.log(err);
     return res.status(400).json(err);
   }
 };
